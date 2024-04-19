@@ -1,6 +1,4 @@
 async function buscar(){
-    console.log("Passei por aqui")
-
     const resposta = await fetch("https://660f44b2356b87a55c510df5.mockapi.io/agendas")
     const respostaDadosAgenda = await resposta.json()
 
@@ -9,10 +7,25 @@ async function buscar(){
     const card = document.getElementById("cards_games")
 
     card.innerHTML = respostaDadosAgenda.map((itemAgenda) => {
+
+        var data = new Date(itemAgenda.dataJogo)
+
+        var dia = data.getDate().toString().padStart(2, '0');
+        var mes = (data.getMonth() + 1).toString().padStart(2, '0');
+        var hora = data.getHours().toString().padStart(2, '0');
+        var minutos = data.getMinutes().toString().padStart(2, '0');
+
+        const dataFormatada = `${dia}/${mes} - ${hora}:${minutos}`;
+
+        var participantes = ""
+
+        itemAgenda.gamers.forEach(it => {
+            participantes += `<div class="gamerItem">@${it}</div>`
+        })
         return `
         <div class="cardItem">
         <div class="dataGame"> 
-            <img src="../imagens/calendar-solid.svg" alt=""> ${itemAgenda.dataJogo} 
+            <img src="../imagens/calendar-solid.svg" alt=""> ${dataFormatada} 
         </div>
         <img class="img-background" src="${itemAgenda.urlImagem}" alt="">
         <div class="descricao">
@@ -21,22 +34,17 @@ async function buscar(){
             <p><strong>Gamers: </strong></p>
     
             <div class="gamers">
-                <div class="gamerItem">@nick01</div>
-                <div class="gamerItem">@nick02</div>
-                <div class="gamerItem">@nick03</div>
-                <div class="gamerItem">@nick04</div>
+                ${participantes}
             </div>
     
           
         </div>  
         <div class="assistir">
-                <a class="assistirItem"> <img src="${itemAgenda.urlAssistir}" alt=""> Assistir </a>
+                <a class="assistirItem" href="${itemAgenda.urlAssistir}"> <img src="../imagens/youtube.svg" alt=""> Assistir </a>
         </div>
     </div> 
         `
-    })
+    }).join('')
 }
 
-console.log("Antes de buscar")
 buscar();
-console.log("Depois de buscar")

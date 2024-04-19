@@ -123,6 +123,7 @@ nav {
     justify-content: center;
 
     .assistirItem {
+        text-decoration: none;
         background-color: var(--vermelho);
         color: #fff;
         padding: 5px;
@@ -145,3 +146,14 @@ nav {
 
 
 /* ADICIONAR EVENTO - Inserir CSS da página de adicionar*/
+
+@media(max-width: 700px){
+    /* body{
+        background-color: #f15652;
+    } */
+    .cards{
+        .cardItem{
+            width: 70%;
+        }
+    }
+}
